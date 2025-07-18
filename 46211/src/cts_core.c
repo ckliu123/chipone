@@ -1992,7 +1992,7 @@ cts_convert_grid_data(grid_data,grid_data,ROWS, COLS);
         CTS_THP_LOGI("calibration done, base update.");
 	}
 	cts_remap_grid_data(cts_frame->rawdata, grid_data, ROWS, COLS);
-    //cts_Freq_base_process(cts_frame);
+    cts_Freq_base_process(cts_frame);
 	cts_convert_grid_data(cts_frame);
     //cts_print_fw_status(cts_frame);
 
