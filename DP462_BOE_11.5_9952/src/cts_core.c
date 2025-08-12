@@ -385,7 +385,7 @@ static int cts_ioctl_get_frame(CTS_IOCTL_FRAME_STRUCT *ioctl_frame)
     if (ret < 0)
     {
         CTS_THP_LOGE("Ioctl cts_get_frame failed: %s", strerror(errno));
-        ret  = cts_tcs_get_debug_info();
+        //ret  = cts_tcs_get_debug_info();
         return -1;
     }
     ioctl_frame->framelen = framelen;
@@ -2220,6 +2220,7 @@ void cts_print_fw_status(CTS_FRAME_STRUCT *frame)
 //         CTS_THP_LOGI("ddi_fsm_state=0x%02x",dump_info->ddi_fsm_state);
 //     }
 // #endif
+	cts_tcs_get_debug_info();
 }
 
 static bool cts_enter_spec_mode(void)
@@ -2298,6 +2299,11 @@ THP_AFE_FRAME_DATA_STRUCT *cts_get_frame(void)
     if(0)
     cts_print_fw_status(cts_frame);
     
+    // if(cts_frame->points[16] == 88)
+    // {
+    //     CTS_THP_LOGI("ddi_srccon=0x%02x,ddi_r_ac=0x%02x, ddi_r_0a=0x%02x, ddi_r_d7+6=0x%02x, ddi_r_7a=0x%02x, ddi_r_d3=0x%02x",cts_frame->points[10],cts_frame->points[11],cts_frame->points[12],cts_frame->points[13],cts_frame->points[14],cts_frame->points[15]);
+    // }
+
 
     // ret = cts_convert_frame(&start_tv,cts_frame,(CTS_FRAME_FINGER_STYLUS_STRUCT *)g_ioctl_frame.frame,&g_thp_frame,&g_stylus_frame);
     ret = cts_convert_frame(&g_ioctl_frame.tv,cts_frame,(CTS_FRAME_FINGER_STYLUS_STRUCT *)g_ioctl_frame.frame,&g_thp_frame,&g_stylus_frame);
@@ -2306,6 +2312,21 @@ THP_AFE_FRAME_DATA_STRUCT *cts_get_frame(void)
         CTS_THP_LOGE("Convert frames failed");
         goto end_get_frame;
     }
+    
+	if (cts_frame->points[11] == 88) {
+		CTS_THP_LOGE("Trigger Display ESD Flow, Get ESD info");
+		
+		CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"u8MstrDdiRAC", cts_frame->points[12], "u8SlvDdiRAC", cts_frame->points[17]);
+		CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"u8MstrDdiR0A", cts_frame->points[13], "u8SlvDdiR0A", cts_frame->points[18]);
+		CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"u8MstrDdiRD7", cts_frame->points[14], "u8SlvDdiRD7", cts_frame->points[19]);
+		CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"u8MstrDdiR7A", cts_frame->points[15], "u8SlvDdiR7A", cts_frame->points[20]);
+		CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"u8MstrDdiRD3", cts_frame->points[16], "u8SlvDdiRD3", cts_frame->points[21]);
+	}
 
 end_get_frame:
     elapsed_ms = ELAPSED_MS(start_tv);

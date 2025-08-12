@@ -34,7 +34,7 @@ extern "C" {
 #define PRODUCT_NAME               "icnl9952"
 
 //yjl  version
-#define AFE_VERSION                "1.0.08"
+#define AFE_VERSION                "1.0.09"
 #define ROWS                       40
 #define COLS                       60
 #define ROWS_STYLUS_TIED           8

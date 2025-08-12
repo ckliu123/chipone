@@ -55,6 +55,15 @@ typedef struct
     uint8_t    u8Dbg1;        //WorkMode2
     uint8_t    u8Dbg2;        //LibScan
     uint8_t    u8Dbg3;        //SpiSlave
+
+	uint8_t		u8MstrDdiRAC; //Master DDI_R_AC
+	uint8_t		u8SlvDdiRAC; //Slave DDI_R_AC, None
+	uint8_t		u8MstrDdiRD7; //Master DDI_R_D7
+	uint8_t		u8SlvDdiRD7; //Slave DDI_R_D7, None
+	uint8_t		u8MstrDdiR7A; //Master DDI_R_7A
+	uint8_t		u8SlvDdiR7A; //Slave DDI_R_7A, None
+	uint8_t		u8MstrDdiRD3; //Master DDI_R_D3
+	uint8_t		u8SlvDdiRD3; //Slave DDI_R_D3, None
 } SYS_STS_DBG;
 
 #pragma pack(push,1)

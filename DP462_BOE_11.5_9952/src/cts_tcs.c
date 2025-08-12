@@ -400,18 +400,27 @@ int cts_tcs_get_debug_info()
     rc = cts_tcs_read_attr(TP_STD_CMD_SYS_STS_DBG, (uint8_t*)&todebug, sizeof(todebug));    //(uint8_t*)&todebug
     if (!rc)
     {
+        CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"11BoMstrSwFlag", todebug.BoMstrSwFlag, "11BoMstrKrangEn", todebug.BoMstrKrangEn);
+        CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"11u8MstrDdiR0A", todebug.u8MstrDdiR0A, "11u8SlvDdiR0A", todebug.u8SlvDdiR0A);
+        CTS_THP_LOGD("%+18s = 0x%08x", "11u32MstrGoErr0", todebug.u32MstrGoErr0);
+        CTS_THP_LOGD("%+18s = 0x%04x", "11u16FwVer", todebug.u16FwVer);
+        CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"11u8MstrDdiState", todebug.u8MstrDdiState, "11u8DdiFrame", todebug.u8DdiFrame);
+        CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"11u8Dbg0", todebug.u8Dbg0, "11u8Dbg1", todebug.u8Dbg1);
+        CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"11u8Dbg2", todebug.u8Dbg2, "11u8Dbg3", todebug.u8Dbg3);
 
-        //CTS_THP_LOGD("11BoMstrSwFlag %x ", todebug.BoMstrSwFlag);
-       // CTS_THP_LOGD("11BoMstrKrangEn %x ", todebug.BoMstrKrangEn);
-        CTS_THP_LOGD("11u8MstrDdiR0A %x ", todebug.u8MstrDdiR0A);
-        //CTS_THP_LOGD("11u32MstrGoErr0 %x ", todebug.u32MstrGoErr0);
-        //CTS_THP_LOGD("11u16FwVer %x ", todebug.u16FwVer);
-        //CTS_THP_LOGD("11u8MstrDdiState %x ", todebug.u8MstrDdiState);
-        //CTS_THP_LOGD("11u8DdiFrame %x ", todebug.u8DdiFrame);
-        //CTS_THP_LOGD("11u8Dbg0 %x ", todebug.u8Dbg0);
-        //CTS_THP_LOGD("11u8Dbg1 %x ", todebug.u8Dbg1);
-        //CTS_THP_LOGD("11u8Dbg2 %x ", todebug.u8Dbg2);
-        //CTS_THP_LOGD("11u8Dbg3 %x ", todebug.u8Dbg3);
+        CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"11u8MstrDdiRAC", todebug.u8MstrDdiRAC, "11u8SlvDdiRAC", todebug.u8SlvDdiRAC);
+        CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"11u8MstrDdiRD7", todebug.u8MstrDdiRD7, "11u8SlvDdiRD7", todebug.u8SlvDdiRD7);
+        CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"11u8MstrDdiR7A", todebug.u8MstrDdiR7A, "11u8SlvDdiR7A", todebug.u8SlvDdiR7A);
+        CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"11u8MstrDdiRD3", todebug.u8MstrDdiRD3, "11u8SlvDdiRD3", todebug.u8SlvDdiRD3);
         return 0;
     }
 #endif
