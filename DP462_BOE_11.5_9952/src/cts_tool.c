@@ -171,26 +171,26 @@ static void *cts_get_gesture_data(void *arg)
     int ret;
     while (gesture_flag)
     {
-        ret = cts_tcs_polling_data(4, (uint8_t *)rawdata, RAWDATA_NODES * 2);
+        // CTS_THP_LOGE("2_cts_rawdata_type:%d",*((int *)arg));
+        ret = cts_tcs_polling_data(*((int *)arg), (uint8_t *)rawdata, ROWS*COLS * 2);
         if (ret)
         {
             CTS_THP_LOGD("Polling gesture data failed!!");
             // break;
         }
         // mdelay(3);
+        cts_send_gesture_data((uint8_t *)rawdata, ROWS*COLS * 2);
     }
-    cts_send_gesture_data((uint8_t *)rawdata, RAWDATA_NODES * 2);
-
     return NULL;
 }
 
-void cts_tool_start_gesture_data_thread()
+void cts_tool_start_gesture_data_thread(int* type)
 {
     if (0 == gesture_flag)
     {
         CTS_THP_LOGD("Start gesture data");
         gesture_flag = 1;
-        pthread_create(&gesture_pthid, 0, cts_get_gesture_data, NULL);
+        pthread_create(&gesture_pthid, 0, cts_get_gesture_data, type);
     }
     else
     {
@@ -228,7 +228,7 @@ static int cts_bind_socket(void)
 
     if (-1 == bind(socket_fd, (struct sockaddr*)&addr, soclen))
     {
-        CTS_THP_LOGD("bind socket fail");
+        CTS_THP_LOGD("bind socket fail: %s", strerror(errno));
         close(socket_fd);
         return -1;
     }
@@ -240,7 +240,7 @@ static int cts_bind_socket(void)
     }
     return 0;
 }
-
+int type = 0;
 void *cts_tool_thread(void *arg)
 {
     // struct sockaddr_in addr;
@@ -378,7 +378,9 @@ next:
         }
         if (memcmp(client_msg, HEADER_START_GESTURE_DATA, HEADER_LEN) == 0)
         {
-            cts_tool_start_gesture_data_thread();
+            type = client_msg[HEADER_LEN];
+            CTS_THP_LOGE("1_cts_rawdata_type:%d",type);
+            cts_tool_start_gesture_data_thread((int *)&type);
         }
         if (memcmp(client_msg, HEADER_STOP_GESTURE_DATA, HEADER_LEN) == 0)
         {
