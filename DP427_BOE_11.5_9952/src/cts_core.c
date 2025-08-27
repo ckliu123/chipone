@@ -1909,6 +1909,8 @@ void cts_print_fw_status(CTS_FRAME_STRUCT *frame)
         CTS_THP_LOGI("ddi_fsm_state=0x%02x",dump_info->ddi_fsm_state);
     }
 #endif
+
+	cts_tcs_get_debug_info();
 }
 
 static bool cts_enter_spec_mode(void)
@@ -1994,6 +1996,21 @@ THP_AFE_FRAME_DATA_STRUCT *cts_get_frame(void)
         CTS_THP_LOGE("Convert frames failed");
         goto end_get_frame;
     }
+
+	if (cts_frame->points[11] == 88) {
+		CTS_THP_LOGE("Trigger Display ESD Flow, Get ESD info");
+		
+		CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"u8MstrDdiRAC", cts_frame->points[12], "u8SlvDdiRAC", cts_frame->points[17]);
+		CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"u8MstrDdiR0A", cts_frame->points[13], "u8SlvDdiR0A", cts_frame->points[18]);
+		CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"u8MstrDdiRD7", cts_frame->points[14], "u8SlvDdiRD7", cts_frame->points[19]);
+		CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"u8MstrDdiR7A", cts_frame->points[15], "u8SlvDdiR7A", cts_frame->points[20]);
+		CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
+			"u8MstrDdiRD3", cts_frame->points[16], "u8SlvDdiRD3", cts_frame->points[21]);
+	}
 
 end_get_frame:
     elapsed_ms = ELAPSED_MS(start_tv);
