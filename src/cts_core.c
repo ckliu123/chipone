@@ -866,7 +866,7 @@ static int cts_convert_grid_data(CTS_FRAME_STRUCT *thp_ctsframe)
             index = i*COLS + j;
             temp = (int)(grid_data[index] - baserawdata[index]);
             //grid_data[index] = (int)(temp * FsCoffBuFreq[index] *9 / 1000) + 0x8000;
-            grid_data[index] = temp + 0x8000;
+            grid_data[index] = temp*3 + 0x8000;
 #ifdef NOISE_LOG
              //memcpy(temp_rawdata, grid_data, sizeof(temp_rawdata));
 #endif
@@ -1264,6 +1264,9 @@ void cts_convert_pr_line_data(uint16_t *data, int rows, int cols, bool is_tx2)
         }
     }
 }
+
+//#define CTS_DEBUG_STYLUS_DATA
+//#define CTS_DEBUG_STYLUS_DATA_BEFORE
 void cts_remap_tx_line_data(uint16_t *stylus_frame)
 {
     uint16_t offset=0,length=0;
@@ -1283,6 +1286,14 @@ void cts_remap_tx_line_data(uint16_t *stylus_frame)
     length =  sizeof(temp2);
     memcpy(temp2,&stylus_frame[offset], length);
 
+
+    #ifdef CTS_DEBUG_STYLUS_DATA_BEFORE
+	CTS_THP_LOGI("+++++++++++++++++ BEFORE PR TX1 +++++++++++++++++");
+	dump_spi_full_data_16(temp1, ROWS_STYLUS_TIED, COLS);
+    #endif
+
+
+
     memcpy(temp5,temp1,sizeof(temp5));
     cts_transposition_pr_data(temp5, temp1, COLS, ROWS_STYLUS_TIED);
     cts_convert_pr_line_data(temp1, COLS, ROWS_STYLUS_TIED, false);
@@ -1298,6 +1309,13 @@ void cts_remap_tx_line_data(uint16_t *stylus_frame)
     length =  sizeof(temp4);
     memcpy(temp4,&stylus_frame[offset], length);
 
+
+
+    #ifdef CTS_DEBUG_STYLUS_DATA_BEFORE
+	CTS_THP_LOGI("+++++++++++++++++ BEFORE PC TX1 +++++++++++++++++");
+	dump_spi_full_data_16(temp3, ROWS, COLS_STYLUS_TIED);
+    #endif
+
     memcpy(temp6,temp3,sizeof(temp3));
     cts_transposition_pc_data(temp6, temp3, COLS_STYLUS_TIED, ROWS);
     cts_convert_pc_line_data(temp3, COLS_STYLUS_TIED, ROWS, false);
@@ -1312,6 +1330,14 @@ void cts_remap_tx_line_data(uint16_t *stylus_frame)
     offset +=COLS_STYLUS_TIED*ROWS;
     length =  sizeof(temp1);
     memcpy(&tx1_line_data[offset],temp1,length);
+
+
+    #ifdef CTS_DEBUG_STYLUS_DATA
+	CTS_THP_LOGI("+++++++++++++++++ PC TX1 +++++++++++++++++");
+	dump_spi_full_data_16(tx1_line_data, COLS_STYLUS_TIED, ROWS);
+	CTS_THP_LOGI("+++++++++++++++++ PR TX1 +++++++++++++++++");
+	dump_spi_full_data_16(&tx1_line_data[offset], COLS, ROWS_STYLUS_TIED);
+    #endif
 
 
     offset=0;
@@ -1334,7 +1360,7 @@ void cts_remap_tx_line_data(uint16_t *stylus_frame)
 // uint16_t stylusmode_fingerRaw_3[ROWS*COLS/4];
 uint16_t stylusmode_fingerRaw_All[ROWS * COLS];
 uint8_t stylusFingerStatus = 0;
-#define DUMP_STYLUS_FINGER_DATA
+//#define DUMP_STYLUS_FINGER_DATA
 void cts_convert_tylusmode_grid_data(CTS_FRAME_FINGER_STYLUS_STRUCT *cts_merge_frame)
 {
     uint16_t length = (int)(ROWS*COLS/4);

@@ -27,6 +27,9 @@ uint8_t captest_frame[FRAME_SIZE_HAS_TAIL];
 #define	INT_MIN		(-0x7fffffff-1)
 #endif
 
+ 
+uint8_t M_delay_5 = 0;
+
 #define RAWDATA_TEST_FRAMES             1
 #define RAWDATA_TEST_MIN                1380
 #define RAWDATA_TEST_MAX                3780
@@ -849,11 +852,11 @@ static int cts_inspect_open(void)
 
 
 #ifdef TEST_SHORT
-#define CTS_9952_ROW_SHORT_TEST
+#define CTS_9953_ROW_SHORT_TEST
 #define SHORT_GND_TEST_LOOP             1
 #define SHORT_COLS_TEST_LOOP            1
-#ifdef CTS_9952_ROW_SHORT_TEST
-#define SHORT_ROWS_TEST_LOOP            8
+#ifdef CTS_9953_ROW_SHORT_TEST
+#define SHORT_ROWS_TEST_LOOP            1
 #else
 #define SHORT_ROWS_TEST_LOOP            1 //3
 #endif
@@ -1113,6 +1116,8 @@ static int cts_inspect_short(void)
      * Short to ground
      */
     CTS_THP_LOGI("Test short to GND");
+    
+    //M_delay_5 = 1;
     ret = cts_tcs_set_short_test_type(CTS_SHORT_TEST_BETWEEN_GND);
     if (ret)
     {
@@ -1144,6 +1149,8 @@ static int cts_inspect_short(void)
 #endif
         // return fail_nodes;
     }
+
+    //M_delay_5 = 1;
 
     /*
      * Short between colums
@@ -1200,6 +1207,7 @@ static int cts_inspect_short(void)
      * Short between rows
      */
     CTS_THP_LOGI("Test short between rows");
+    M_delay_5 = 1;
     ret = cts_tcs_set_short_test_type(CTS_SHORT_TEST_BETWEEN_ROWS);
     if (ret)
     {
@@ -1221,9 +1229,11 @@ static int cts_inspect_short(void)
         mdelay(5);
     }
 
+    M_delay_5 = 0;
+
     for (loopcnt = 0; loopcnt < SHORT_ROWS_TEST_LOOP; loopcnt++)
     {
-#ifdef CTS_9952_ROW_SHORT_TEST
+#ifdef CTS_9953_ROW_SHORT_TEST
         if (loopcnt == SHORT_ROWS_TEST_LOOP - 1)  // only judge the last frame mbteng 20241129
         {
 #endif
@@ -1247,7 +1257,7 @@ static int cts_inspect_short(void)
 				// return fail_nodes;
 
             }
-#ifdef CTS_9952_ROW_SHORT_TEST
+#ifdef CTS_9953_ROW_SHORT_TEST
         }
 #endif
     }

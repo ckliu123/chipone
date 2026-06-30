@@ -441,6 +441,25 @@ void cts_dump_spi_err(uint8_t spi_data_type, const uint8_t *buf, size_t len)
     STR_DUMP_ERR();
 }
 
+
+void dump_spi_full_data_16(const uint16_t *data, size_t rows, size_t cols)
+{
+    STR_INIT();
+    int i = 0, j = 0;
+
+    for (i = 0; i < rows; i++) {
+        STR_RESET();
+        STR_APPEND("[%4d] ", i);
+        for (j = 0; j < cols; j++) {
+            STR_APPEND("%4d,", data[i * cols + j]);
+        }
+        STR_DUMP();
+    }
+}
+
+
+
+
 void dump_spi_full_data(const uint8_t *data, int len)
 {
     STR_INIT();

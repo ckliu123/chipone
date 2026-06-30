@@ -16,7 +16,7 @@ extern "C" {
 
 // #define PROJECT_ID				"W427CF1300"
 
-//#define CTS_DEBUG
+#define CTS_DEBUG
 #ifdef CTS_DEBUG
 /*** DEBUG PART ***/
 #define DEBUG_SOCKET_TOOL
@@ -63,6 +63,8 @@ extern "C" {
 
 #define GET_FRAME_TIMEOUT_MS               4500
 #define CURRENT_FRAME_MIN_SIZ           11
+
+extern uint8_t M_delay_5;
 
 typedef enum
 {
@@ -150,7 +152,7 @@ typedef struct
 #endif
 typedef struct
 {
-    uint8_t                        points[POS_BUF_LEN];
+    uint8_t                        points[POS_BUF_LEN];  //112
     uint8_t                        index;
     uint8_t                        version;
     uint32_t                       magic_number;
@@ -158,16 +160,16 @@ typedef struct
     uint16_t                       next_frame_size;
     uint16_t                       frame_type;
     uint16_t                       frame_index;
-    uint16_t                       finger_scan_freq;
-    uint16_t                       finger_noise[5];
+    uint16_t                       finger_scan_freq;    //128
+    uint16_t                       finger_noise[5];  //138
     uint16_t                       finger_scan_rate;
     uint16_t                       stylus_tx1_curr_scan_freq;
     uint16_t                       stylus_tx2_curr_scan_freq;
     uint16_t                       stylus_tx1_next_scan_freq;
-    uint16_t                       stylus_tx2_next_scan_freq;
-    uint16_t                       stylus_noise[4];
-    uint16_t                       stylus_scan_rate;
-    uint32_t                       afe_status;
+    uint16_t                       stylus_tx2_next_scan_freq;   //148
+    uint16_t                       stylus_noise[4];   //156
+    uint16_t                       stylus_scan_rate;  //158
+    uint32_t                       afe_status; //159
     uint16_t                       gesture_status;
     uint16_t                       stylus_status;
     uint16_t                       fw_status;

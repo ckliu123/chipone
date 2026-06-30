@@ -170,6 +170,7 @@ void cts_disable_dump_spi(void);
 void cts_dump_spi(uint8_t spi_data_type, const uint8_t *buf, size_t len);
 void cts_dump_spi_err(uint8_t spi_data_type, const uint8_t *buf, size_t len);
 void dump_spi_full_data(const uint8_t *data, int len);
+void dump_spi_full_data_16(const uint16_t *data, size_t rows, size_t cols);
 void cts_enable_dump_data(void);
 void cts_disable_dump_data(void);
 void cts_dump_rawdata(const uint16_t *data, size_t nrow, size_t ncol);

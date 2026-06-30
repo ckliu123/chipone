@@ -9,7 +9,7 @@
 
 #include <string.h>
 #include <stddef.h>
-
+//#include "cts_inspect.h"
 
 
 
@@ -39,6 +39,8 @@ uint8_t  u8Dbg0;        //WorkMode1
 uint8_t  u8Dbg1;        //WorkMode2
 uint8_t   u8Dbg2;        //LibScan
 uint8_t   Dbg3;        //SpiSlave
+
+
 
 uint8_t debug;
 static uint8_t txbuf[INTERNAL_SPI_BUF_SIZ];
@@ -513,11 +515,18 @@ int cts_tcs_polling_rawdata(uint8_t *buf, size_t size)
     while (retries--)
     {
         ret = cts_tcs_get_data_ready_flag(&ready);
+        //CTS_THP_LOGE("M_delay+++ = %d", M_delay_5);
         if (!ret && ready)
         {
             break;
         }
-        mdelay(1);
+        if(M_delay_5){
+        mdelay(5);              
+        }else{
+            mdelay(1); 
+        }
+        
+
     }
     if (ret)
     {

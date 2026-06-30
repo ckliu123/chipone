@@ -62,9 +62,9 @@
 #define SPI2_TX_FORWARD_OFF                0x12
 #define FIRMWARE_MARK_OFFSET               0x37ff0u
 #ifdef __MUSL__
-#define FIRMWARE_FILE                      "/chip_prod/etc/firmware/ts/icnl9952.bin"
+#define FIRMWARE_FILE                      "/chip_prod/etc/firmware/ts/icnl9953.bin"
 #else
-#define FIRMWARE_FILE                      "/odm/etc/firmware/ts/icnl9952.bin"
+#define FIRMWARE_FILE                      "/odm/etc/firmware/ts/icnl9953.bin"
 #endif
 
 
@@ -198,7 +198,7 @@ bool  CopyMasterToSlave1ByRCP1(uint32_t master_addr, uint32_t slave_addr, uint32
         blockLen = (writeLen > SIZE_32KB) ? SIZE_32KB : writeLen;
         len_words = blockLen / 4;
 
-        // ÿÿÿÿ DMA ÿÿÿ??ÿÿÿ
+        // ï¿½ï¿½ï¿½ï¿½ DMA ï¿½ï¿½ï¿½??ï¿½ï¿½ï¿½
         ucTemp[0] = (uint8_t)(len_words);
         ucTemp[1] = (uint8_t)(len_words >> 8);
         ucTemp[2] = DMA1_CASC;
@@ -221,7 +221,7 @@ bool  CopyMasterToSlave1ByRCP1(uint32_t master_addr, uint32_t slave_addr, uint32
 
 
 
-        // ÿÿÿÿ?ÿÿÿ?ÿÿÿÿÿ?ÿÿ?ÿÿ
+        // ï¿½ï¿½ï¿½ï¿½?ï¿½ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
         ucTemp[0] = (uint8_t)(writeOffsetSlave);
         ucTemp[1] = (uint8_t)(writeOffsetSlave >> 8);
         ucTemp[2] = (uint8_t)(writeOffsetSlave >> 16);
@@ -242,7 +242,7 @@ bool  CopyMasterToSlave1ByRCP1(uint32_t master_addr, uint32_t slave_addr, uint32
 
 
 
-        // ÿÿÿÿ?ÿÿ?ÿÿÿÿÿ?ÿÿ?ÿÿ
+        // ï¿½ï¿½ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
         ucTemp[0] = (uint8_t)(writeOffsetMaster);
         ucTemp[1] = (uint8_t)(writeOffsetMaster >> 8);
         ucTemp[2] = (uint8_t)(writeOffsetMaster >> 16);
@@ -263,7 +263,7 @@ bool  CopyMasterToSlave1ByRCP1(uint32_t master_addr, uint32_t slave_addr, uint32
 
 
 
-        // ÿÿÿÿ DMA
+        // ï¿½ï¿½ï¿½ï¿½ DMA
         ucTemp[0] = 0x01;
         // if (WriteProg(KR_DMA1_CTL, ucTemp, 1) != 0)
         // {
@@ -281,7 +281,7 @@ bool  CopyMasterToSlave1ByRCP1(uint32_t master_addr, uint32_t slave_addr, uint32
         }
 
 
-        // ÿ?ÿ DMA ÿÿ?ÿ?
+        // ï¿½?ï¿½ DMA ï¿½ï¿½?ï¿½?
         start = 0;
         while (1)
         {
@@ -315,7 +315,7 @@ bool  CopyMasterToSlave1ByRCP1(uint32_t master_addr, uint32_t slave_addr, uint32
             }
         }
 
-        // ÿÿÿÿ?ÿÿÿÿ
+        // ï¿½ï¿½ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½
         writeLen -= blockLen;
         writeOffsetSlave += blockLen;
         writeOffsetMaster += blockLen;
@@ -791,7 +791,7 @@ int cts_update_firmware(void)
         CTS_THP_LOGE("Master ret fail :%d", ret);
         return ret;
     }
-    CTS_THP_LOGE("Read_master casc_status=%d [0:slave  1:master], Read_9952_hwid=0x%x ", status, hwid);
+    CTS_THP_LOGE("Read_master casc_status=%d [0:slave  1:master], Read_9953_hwid=0x%x ", status, hwid);
 
 
     retries = 3;

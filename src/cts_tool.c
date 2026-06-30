@@ -218,6 +218,7 @@ static int cts_bind_socket(void)
     }
 
 	int opt = 1;
+
     setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)); // ÔÊÐíµØÖ·¸´ÓÃ
     setsockopt(socket_fd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));
 
@@ -400,7 +401,7 @@ void cts_tool_send_data_to_client(CTS_FRAME_STRUCT *cts_frame)
     {
         data[FRAME_SIZE] = crc;
         data[FRAME_SIZE + 1] = crc >> 8;
-        write(client_fd, cts_frame, FRAME_SIZE_HAS_TAIL - 3);
+        write(client_fd, cts_frame, FRAME_SIZE_HAS_TAIL - 5);
     }
 }
 
