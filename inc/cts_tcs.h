@@ -40,12 +40,26 @@
 #define CTS_SHORT_TEST_BETWEEN_ROWS        (0x02)
 #define CTS_SHORT_TEST_BETWEEN_GND         (0x03)
 
+
+
+#pragma pack(push,1)
+typedef struct
+{
+    uint8_t baseFlag;
+    uint8_t classID;
+    uint8_t cmdID;
+    uint8_t isRead;
+    uint8_t isWrite;
+    uint8_t isData;
+} TcsCmdValue_t;
+
+
 typedef struct
 {
     uint8_t BoMstrSwFlag;  //b_SW_FLAG
     uint8_t BoMstrKrangEn; //SCAN_KRANG_EN
-    uint8_t    u8MstrDdiR0A;  //Master DDI_R_0A
-    uint8_t    u8SlvDdiR0A;   //Slave DDI_R_0A, None
+    //uint8_t    u8MstrDdiR0A;  //Master DDI_R_0A
+    //uint8_t    u8SlvDdiR0A;   //Slave DDI_R_0A, None
     uint32_t  u32MstrGoErr0; //SCAN_GO_ERR0_STS
     uint32_t  u32MstrGoErr1; //SCAN_GO_ERR1_STS
     uint16_t   u16FwVer;      //FIRMWARE_VER
@@ -64,18 +78,11 @@ typedef struct
 	uint8_t		u8SlvDdiR7A; //Slave DDI_R_7A, None
 	uint8_t		u8MstrDdiRD3; //Master DDI_R_D3
 	uint8_t		u8SlvDdiRD3; //Slave DDI_R_D3, None
+    uint8_t    u8MstrDdiR0A;  //Master DDI_R_0A
+    uint8_t    u8SlvDdiR0A;   //Slave DDI_R_0A, None
+    uint8_t    Ddiinfo[4];
 } SYS_STS_DBG;
 
-#pragma pack(push,1)
-typedef struct
-{
-    uint8_t baseFlag;
-    uint8_t classID;
-    uint8_t cmdID;
-    uint8_t isRead;
-    uint8_t isWrite;
-    uint8_t isData;
-} TcsCmdValue_t;
 
 typedef struct
 {
@@ -119,6 +126,7 @@ enum TcsCmdIndex
     TP_STD_CMD_SYS_STS_DDI_CODE_VER_RO,
     TP_STD_CMD_SYS_STS_DAT_TRANS_IN_NORMAL_RW,
     TP_STD_CMD_SYS_STS_VSTIM_LVL_RW,
+    
     TP_STD_CMD_SYS_STS_CNEG_RDY_FLAG_RW,
     TP_STD_CMD_SYS_STS_TP_REPORT_RATE_RO,
     TP_STD_CMD_SYS_STS_RESET_WO,
@@ -137,12 +145,12 @@ enum TcsCmdIndex
     TP_STD_CMD_SET_KRANG_STOP,
     TP_STD_CMD_SYS_STS_GAME_MODE_RW,
     TP_STD_CMD_SYS_STS_PRODUCTION_TEST_EN_RW,
-
     TP_STD_CMD_AFE_STATUS_CLEAR_WO,
     TP_STD_CMD_SYS_STS_KRANG_MODE_SW_RW,
     TP_STD_CMD_SYS_STS_SET_HPP_RW,
     TP_STD_CMD_SYS_STS_DBG,
     TP_STD_CMD_THP_SET_STY_DET_FREQ,
+    TP_STD_CMD_SYS_STS_STYLUS_PRESS_RW,
 
     TP_STD_CMD_GSTR_WAKEUP_EN_RW,
     TP_STD_CMD_GSTR_DAT_RDY_FLAG_GSTR_RW,
@@ -237,6 +245,7 @@ static TcsCmdValue_t TcsCmdValue[] =
     { 0, 2, 94, 1, 1, 0 },    /* TP_STD_CMD_SYS_STS_SET_HPP_RW */
     { 0, 2, 95, 1, 1, 0 },    /* TP_STD_CMD_SYS_STS_DBG*/
     { 0, 2, 101, 1, 1, 0 },    /* TP_STD_CMD_THP_SET_STY_DET_FREQ */
+    { 0, 2, 111, 1, 1, 0 },    /*TP_STD_CMD_SYS_STS_STYLUS_PRESS_RW*/
 
     { 0, 3,  1, 1, 1, 0 },    /* TP_STD_CMD_GSTR_WAKEUP_EN_RW */
     { 0, 3, 30, 1, 1, 0 },    /* TP_STD_CMD_GSTR_DAT_RDY_FLAG_GSTR_RW */
@@ -334,6 +343,8 @@ int cts_tcs_set_product_en(void);
 
 //add yjl
 int cts_tcs_get_Normal_Fs_Raw_Dest_Value(uint16_t *NormalFsRawDestValue);
+
+int cts_tcs_stylus_press(uint16_t *press);
 
 int cts_tcs_get_mnt_options(MntOptions *options);
 int cts_tcs_set_mnt_options(MntOptions *options);

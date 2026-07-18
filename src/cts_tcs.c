@@ -405,7 +405,7 @@ int cts_tcs_get_debug_info()
 
         CTS_THP_LOGD("11BoMstrSwFlag %x ", todebug.BoMstrSwFlag);
         CTS_THP_LOGD("11BoMstrKrangEn %x ", todebug.BoMstrKrangEn);
-        CTS_THP_LOGD("11u8MstrDdiR0A %x ", todebug.u8MstrDdiR0A);
+        CTS_THP_LOGD("u32MstrGoErr1 %x ", todebug.u32MstrGoErr1);
         CTS_THP_LOGD("11u32MstrGoErr0 %x ", todebug.u32MstrGoErr0);
         CTS_THP_LOGD("11u16FwVer %x ", todebug.u16FwVer);
         CTS_THP_LOGD("11u8MstrDdiState %x ", todebug.u8MstrDdiState);
@@ -453,6 +453,16 @@ int cts_tcs_get_mnt_options(MntOptions *options)
 int cts_tcs_set_mnt_options(MntOptions *options)
 {
     return cts_tcs_write_attr(TP_STD_CMD_MNT_OPTIONS_MNT_RW, (uint8_t *)options, sizeof(MntOptions));
+}
+
+
+int cts_tcs_stylus_press(uint16_t *press)
+{
+
+    //CTS_THP_LOGD("freq shift enable 1");
+
+    return cts_tcs_write_attr(TP_STD_CMD_SYS_STS_STYLUS_PRESS_RW, (uint8_t *)press, sizeof(uint16_t));
+
 }
 
 int cts_tcs_force_enter_mnt(void)
@@ -839,6 +849,9 @@ int cts_tcs_set_scan_freq(uint8_t freq)
     //yjl  update
     return cts_tcs_write_u8attr(TP_STD_CMD_FREQ_SHIFT_FORCE_WO, freq);
 }
+
+
+
 
 //yjl add
 int cts_tcs_freq_shift_switch(uint8_t enable)

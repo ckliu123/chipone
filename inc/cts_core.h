@@ -19,7 +19,7 @@ extern "C" {
 #define CTS_DEBUG
 #ifdef CTS_DEBUG
 /*** DEBUG PART ***/
-#define DEBUG_SOCKET_TOOL
+#define DEBUG_SOCKET_TOOL   
 // #define DEBUG_DUMP_IOCTL_SPI_FULL_DATA
 // #define DISABLE_IDLE
 #define  FIRMWARE_UPDATE_SDCARD
@@ -270,6 +270,8 @@ int cts_tcs_Calib_update(void);
 int cts_screen_off(void);
 int cts_screen_on(void);
 int cts_force_to_freq_point(uint8_t index);
+
+int thp_afe_stylus_press(uint16_t press);
 //yjl
 int cts_freq_shift_switch(uint8_t enable);
 int cts_tcs_freq_shift_switch(uint8_t enable);

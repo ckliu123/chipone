@@ -926,6 +926,14 @@ int16_t *thp_afe_get_inspect_noise(void)
 *****************************************************************************/
 THP_AFE_ERR_ENUM thp_afe_enter_tui(void);
 
+
+THP_AFE_ERR_ENUM thp_afe_set_stylus_press(uint16_t press)
+{
+     //CTS_THP_LOGD("....%d", press);
+    return thp_afe_stylus_press(press)? THP_AFE_ESTATE : THP_AFE_OK;
+}
+
+
 /******************************************************************************
 * Function: thp_afe_exit_tui()
 *

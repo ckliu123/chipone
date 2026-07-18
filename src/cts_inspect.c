@@ -323,6 +323,54 @@ static int cts_validate_tsdata(const char *desc, uint16_t *data, int min, int ma
 }
 #endif
 
+static int cts_validate_tsdata_test(const char *desc, uint16_t *data, int min, int max)
+{
+#define SPLIT_LINE_STR \
+    "------------------------------"
+
+    int r, c;
+    int failed_cnt = 0;
+
+    //CTS_THP_LOGI("%s thresh[0]=[%d, %d]", desc, min, max);
+
+    for (r = 0; r < ROWS; r++)
+    {
+        for (c = 0; c < COLS; c++)
+        {
+            int offset = r * COLS + c;
+            if ((data[offset] < min) || (data[offset] > max))
+            {
+                if (failed_cnt == 0)
+                {
+                    // CTS_THP_LOGI(SPLIT_LINE_STR);
+                    // CTS_THP_LOGI("%s failed nodes:", desc);
+                }
+                failed_cnt++;
+                // CTS_THP_LOGI("  %3d: [%-2d][%-2d] = %u",
+                //      failed_cnt, r, c, data[offset]);
+
+                if (failed_cnt > 10 )
+                    break;
+            }
+        }
+        if (failed_cnt > 10 )
+            break;
+    }
+
+    if (failed_cnt)
+    {
+        CTS_THP_LOGI(SPLIT_LINE_STR);
+        CTS_THP_LOGI("%s test %d node total failed", desc, failed_cnt);
+    }
+    return failed_cnt;
+
+#undef SPLIT_LINE_STR
+}
+
+
+
+
+
 #ifdef   TEST_COMPCAP
 static int cts_validate_comp_cap(const char *desc, uint8_t *cap, int min, int max)
 {
@@ -1348,6 +1396,13 @@ static int cts_inspect_noise(void)
             ret = -1;
             break;
         }
+
+        ret = cts_validate_tsdata_test("Noise test", curr_rawdata, 2000, 3500);
+        if(ret > 0)
+        {
+            cts_dump_tsdata("original-rawdata", frame + 1, curr_rawdata);
+        }
+
 
         //cts_dump_tsdata("Noise-rawdata", frame + 1, curr_rawdata);
 

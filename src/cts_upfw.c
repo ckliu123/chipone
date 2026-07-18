@@ -12,7 +12,7 @@
 #ifdef M2
 // #warning m2
 #include "firmware_data_m2.h"
-#elif defined(DPT)
+#elif defined(CSOT)
 // #warning dpt
 #include "firmware_data_csot.h"
 #else
