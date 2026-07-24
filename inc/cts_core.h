@@ -16,7 +16,12 @@ extern "C" {
 
 // #define PROJECT_ID				"W427CF1300"
 
+//#define PINT_PINT_DEG
+//#define NEED_COMPARE_DATA
 #define CTS_DEBUG
+
+
+
 #ifdef CTS_DEBUG
 /*** DEBUG PART ***/
 #define DEBUG_SOCKET_TOOL   
@@ -117,14 +122,40 @@ typedef struct
 #ifdef CTS_FW_DUMP_INFO
 #define CTS_ID_NUM 10
 #define FRAME_NUM_TO_PRINT 1//100 2024/12/04 modified by mbteng
-typedef struct
-{
-    uint8_t dbg_cnt;
-    uint8_t job_id;
-    uint16_t ddi_line_num;
-    uint8_t ddi_vsync_cnt;
-    uint8_t ddi_tps_cnt;
+
+
+
+// 先单独定义共用体类型
+typedef union {
+    uint16_t all;
+    struct {
+        uint16_t bit12ddilinenuber : 12;
+        uint16_t bit4headcfgtag : 4;
+    } bits;
+} INFO_DATA3;
+
+typedef union {
+    uint16_t all;
+    struct {
+        uint16_t tpsprdnum : 10;
+        uint16_t : 2;
+        uint16_t bit4headcfgtag : 4;
+    } bits;
+} INFO_DATA4;
+
+
+typedef struct {
+    uint8_t rld_dbg_cnt;
+    uint8_t ddi_fr_len;
+    uint8_t ddi_fr_cnt;
+    uint8_t ddi_rst_cnt;
+    
+    INFO_DATA3 info_data3;  // 作为普通成员
+    INFO_DATA4 info_data4;
+    
 } CTS_ID_INFO_STRUCT;
+
+
 
 typedef struct
 {

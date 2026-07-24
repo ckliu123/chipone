@@ -14,7 +14,8 @@
 
 #define TEST_SHORT_DEBUG
 #ifdef  TEST_SHORT_DEBUG
-#define TEST_READ_CNEG				0x35C00
+#define MSTER_TEST_READ_CNEG				0x35400
+#define SLAV_TEST_READ_CNEG				    0x35900
 uint8_t cneg_buffer[32];
 extern int cts_drw_read_raw(uint32_t addr, uint8_t *rbuf, size_t rlen);
 extern void cts_print_fw_status(CTS_FRAME_STRUCT *frame);
@@ -784,6 +785,17 @@ static int cts_inspect_rawdata(void)
         if (ret)
         {
             CTS_THP_LOGE("Rawdata test has %d nodes failed", ret);
+            #ifdef TEST_SHORT_DEBUG
+            MEMSET(cneg_buffer, 0xFF, sizeof(cneg_buffer));
+            cts_drw_read_raw(MSTER_TEST_READ_CNEG, cneg_buffer, sizeof(cneg_buffer));
+            CTS_THP_LOGE("print cneg bug Mster: 35400 ");
+            dump_spi_full_data(cneg_buffer, sizeof(cneg_buffer));
+            MEMSET(cneg_buffer, 0xFF, sizeof(cneg_buffer));
+            cts_drw_read_raw(SLAV_TEST_READ_CNEG, cneg_buffer, sizeof(cneg_buffer));
+            CTS_THP_LOGE("print cneg bug Slave: 35900 ");
+            dump_spi_full_data(cneg_buffer, sizeof(cneg_buffer));
+            cts_print_fw_status((CTS_FRAME_STRUCT *)captest_frame);
+            #endif
         }
     }
     gettimeofday(&end_time, NULL);
@@ -1191,7 +1203,7 @@ static int cts_inspect_short(void)
         CTS_THP_LOGE("Short to GND test failed %d", ret);
 #ifdef TEST_SHORT_DEBUG
 		MEMSET(cneg_buffer, 0xFF, sizeof(cneg_buffer));
-		cts_drw_read_raw(TEST_READ_CNEG, cneg_buffer, sizeof(cneg_buffer));
+		cts_drw_read_raw(MSTER_TEST_READ_CNEG, cneg_buffer, sizeof(cneg_buffer));
 		dump_spi_full_data(cneg_buffer, sizeof(cneg_buffer));
         cts_print_fw_status((CTS_FRAME_STRUCT *)captest_frame);
 #endif
@@ -1243,7 +1255,7 @@ static int cts_inspect_short(void)
             CTS_THP_LOGE("Short between columns test failed %d", ret);
 #ifdef TEST_SHORT_DEBUG
 			MEMSET(cneg_buffer, 0xFF, sizeof(cneg_buffer));
-			cts_drw_read_raw(TEST_READ_CNEG, cneg_buffer, sizeof(cneg_buffer));
+			cts_drw_read_raw(MSTER_TEST_READ_CNEG, cneg_buffer, sizeof(cneg_buffer));
 			dump_spi_full_data(cneg_buffer, sizeof(cneg_buffer));
             cts_print_fw_status((CTS_FRAME_STRUCT *)captest_frame);
 #endif
@@ -1297,7 +1309,7 @@ static int cts_inspect_short(void)
                 CTS_THP_LOGE("Short between rows test failed %d", ret);
 #ifdef TEST_SHORT_DEBUG
 				MEMSET(cneg_buffer, 0xFF, sizeof(cneg_buffer));
-				cts_drw_read_raw(TEST_READ_CNEG, cneg_buffer, sizeof(cneg_buffer));
+				cts_drw_read_raw(MSTER_TEST_READ_CNEG, cneg_buffer, sizeof(cneg_buffer));
                 CTS_THP_LOGE("CNEG 32 bytes values:");
 				dump_spi_full_data(cneg_buffer, sizeof(cneg_buffer));
                 cts_print_fw_status((CTS_FRAME_STRUCT *)captest_frame);
@@ -1396,14 +1408,26 @@ static int cts_inspect_noise(void)
             ret = -1;
             break;
         }
-
+/********************************************************** */
         ret = cts_validate_tsdata_test("Noise test", curr_rawdata, 2000, 3500);
         if(ret > 0)
         {
+
+            #ifdef TEST_SHORT_DEBUG
+            MEMSET(cneg_buffer, 0xFF, sizeof(cneg_buffer));
+            cts_drw_read_raw(MSTER_TEST_READ_CNEG, cneg_buffer, sizeof(cneg_buffer));
+            CTS_THP_LOGE("print cneg bug Mster: 35400 ");
+            dump_spi_full_data(cneg_buffer, sizeof(cneg_buffer));
+            MEMSET(cneg_buffer, 0xFF, sizeof(cneg_buffer));
+            cts_drw_read_raw(SLAV_TEST_READ_CNEG, cneg_buffer, sizeof(cneg_buffer));
+            CTS_THP_LOGE("print cneg bug Slave: 35900 ");
+            dump_spi_full_data(cneg_buffer, sizeof(cneg_buffer));
+            cts_print_fw_status((CTS_FRAME_STRUCT *)captest_frame);
+            #endif
             cts_dump_tsdata("original-rawdata", frame + 1, curr_rawdata);
         }
 
-
+/**************************************************************** */
         //cts_dump_tsdata("Noise-rawdata", frame + 1, curr_rawdata);
 
         if (!frame)
@@ -1746,6 +1770,7 @@ uint32_t cts_inspect(void)
             }
             result |= THP_AFE_INSPECT_ENOISE;
         }
+
     }
 #endif
 

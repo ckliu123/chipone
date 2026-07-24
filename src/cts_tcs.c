@@ -140,6 +140,8 @@ static int cts_tcs_spi_chichu(uint8_t *tx, size_t txlen, uint8_t *rx, size_t rxl
         CTS_THP_LOGE("Spi xtrans failed: %s", strerror(errno));
         return -1;
     }
+
+   
     msg.xfer_num = 1;
     msg.xfer_data= &xfer[1];
     ret = thp_ioctl_multiple_spi_xfer_sync(&msg);
