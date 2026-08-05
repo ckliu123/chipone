@@ -31,6 +31,8 @@ uint8_t captest_frame[FRAME_SIZE_HAS_TAIL];
  
 uint8_t M_delay_5 = 0;
 
+uint16_t last_rawdata[RAWDATA_NODES];
+
 #define RAWDATA_TEST_FRAMES             1
 #define RAWDATA_TEST_MIN                1380
 #define RAWDATA_TEST_MAX                3780
@@ -339,7 +341,7 @@ static int cts_validate_tsdata_test(const char *desc, uint16_t *data, int min, i
         for (c = 0; c < COLS; c++)
         {
             int offset = r * COLS + c;
-            if ((data[offset] < min) || (data[offset] > max))
+            if (((data[offset] - last_rawdata[offset]) < min) || ((data[offset] - last_rawdata[offset]) > max))
             {
                 if (failed_cnt == 0)
                 {
@@ -1339,6 +1341,7 @@ static int cts_inspect_noise(void)
     uint16_t *curr_rawdata = NULL;
     uint16_t max_rawdata[RAWDATA_NODES];
     uint16_t min_rawdata[RAWDATA_NODES];
+    
     uint16_t *noise_data = NULL;
     //bool data_valid = false;
     struct timeval start_time, end_time, delta_time;
@@ -1409,8 +1412,8 @@ static int cts_inspect_noise(void)
             break;
         }
 /********************************************************** */
-        ret = cts_validate_tsdata_test("Noise test", curr_rawdata, 2000, 3500);
-        if(ret > 0)
+        ret = cts_validate_tsdata_test("Noise test", curr_rawdata, -400, 400);
+        if(ret > 0 && frame != 0)
         {
 
             #ifdef TEST_SHORT_DEBUG
@@ -1430,10 +1433,15 @@ static int cts_inspect_noise(void)
 /**************************************************************** */
         //cts_dump_tsdata("Noise-rawdata", frame + 1, curr_rawdata);
 
+        
+        
+        memcpy(last_rawdata, curr_rawdata, sizeof(min_rawdata));
         if (!frame)
         {
             memcpy(max_rawdata, curr_rawdata, sizeof(max_rawdata));
             memcpy(min_rawdata, curr_rawdata, sizeof(min_rawdata));
+
+
         }
         else
         {
@@ -1464,6 +1472,8 @@ static int cts_inspect_noise(void)
     gettimeofday(&end_time, NULL);
     timersub(&end_time, &start_time, &delta_time);
     CTS_THP_LOGI("Noise test cost %ldms", delta_time.tv_sec * 1000 + delta_time.tv_usec / 1000);
+
+    memset(last_rawdata, 0, sizeof(min_rawdata));
 
     return ret;
 }

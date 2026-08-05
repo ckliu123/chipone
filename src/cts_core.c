@@ -940,7 +940,7 @@ bool cts_compare_raw(uint16_t *src_data)
     int temp = 0;
     uint8_t consecutive_count = 0;  // 连续超过阈值的节点计数
     
-    for(int i = 20; i < 26; i++)
+    for(int i = 20; i < 40; i++)
     {
         for(int j = 0; j < 60; j++)
         {
@@ -949,20 +949,20 @@ bool cts_compare_raw(uint16_t *src_data)
             int index = ROWS *j  + i;
             temp = (int)(src_data[index] - baserawdata[index]); 
             
-            if(temp > 200)
+            if(temp > 100 || temp < -100)
             {
                 consecutive_count++;
                 //CTS_THP_LOGI("temp, ======++++%d,  idex===%d", temp, index);
-                if(consecutive_count >= 17)  // 连续30个节点都超过阈值
-                {
-                    CTS_THP_LOGI("CNT, ======%d", consecutive_count);
+                // if(consecutive_count >= 17)  // 连续30个节点都超过阈值
+                // {
+                    //CTS_THP_LOGI("CNT, ======%d", consecutive_count);
                     return true;
-                }
+                // }
             }
-            else
-            {
-                consecutive_count = 0;  // 遇到不满足条件的节点，重置计数器
-            }
+            // else
+            // {
+            //     consecutive_count = 0;  // 遇到不满足条件的节点，重置计数器
+            // }
         }
     }
     
