@@ -18,7 +18,7 @@ extern "C" {
 
 //#define PINT_PINT_DEG
 //#define NEED_COMPARE_DATA
-#define CTS_DEBUG
+//#define CTS_DEBUG
 
 
 
