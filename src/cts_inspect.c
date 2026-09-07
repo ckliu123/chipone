@@ -1682,6 +1682,49 @@ uint32_t cts_inspect(void)
             CTS_THP_LOGE("Inspect Open,  left:%d", retries);
 			
             ret = cts_tcs_get_debug_info();
+
+
+            #ifdef CAP_PINT_DEG
+            //uint8_t *thp_data = ((uint16_t *)ioctl_frame->frame);
+            uint8_t thp_data[128] = {0};
+            cts_drw_read_raw(0x00000, thp_data, 128);
+            //thp_data = frame + 60;
+        
+                        for(int i = 0; i < 8; i++){
+                                CTS_THP_LOGE("raw %04d ~ %04d:%02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x ",
+                                        i *16,i *16 + 15,
+                                        (uint8_t)thp_data[0 + i *16],(uint8_t)thp_data[1 + i *16], (uint8_t)thp_data[2 + i *16], (uint8_t)thp_data[3 + i *16],
+                                        (uint8_t)thp_data[4 + i *16], (uint8_t)thp_data[5 + i *16], (uint8_t)thp_data[6 + i *16], (uint8_t)thp_data[7 + i *16],
+                                        (uint8_t)thp_data[8 + i *16], (uint8_t)thp_data[9 + i *16], (uint8_t)thp_data[10 + i *16], (uint8_t)thp_data[11 + i *16],
+                                        (uint8_t)thp_data[12 + i *16],(uint8_t)thp_data[13 + i *16], (uint8_t)thp_data[14 + i *16], (uint8_t)thp_data[15 + i *16]);
+                        }
+
+
+                        CTS_THP_LOGE("*******************************************************");
+
+
+            
+            MEMSET(thp_data, 0, 128);
+
+            cts_drw_read_raw(0x7401C, thp_data, 4);
+            CTS_THP_LOGE("0x7401C = %02x  %02x  %02x  %02x", thp_data[0], thp_data[1], thp_data[2], thp_data[3]);
+            MEMSET(thp_data, 0, 128);
+            cts_drw_read_raw(0x7402C, thp_data, 4);
+            CTS_THP_LOGE("0x7402C = %02x  %02x  %02x  %02x", thp_data[0], thp_data[1], thp_data[2], thp_data[3]);
+            MEMSET(thp_data, 0, 128);
+            cts_drw_read_raw(0x7401A, thp_data, 4);
+            CTS_THP_LOGE("0x7401A = %02x", thp_data[0]);
+            MEMSET(thp_data, 0, 128);
+            cts_drw_read_raw(0x3B800, thp_data, 4);
+            CTS_THP_LOGE("0x3B800= %02x  %02x  %02x  %02x", thp_data[0], thp_data[1], thp_data[2], thp_data[3]);
+            MEMSET(thp_data, 0, 128);
+            cts_drw_read_raw(0x27FA0, thp_data, 1);
+            CTS_THP_LOGE("0x27FA0 = %02x", thp_data[0]);
+        #endif
+
+
+
+
             if (ret)
             {
                 CTS_THP_LOGE("fet debug_info failed");
@@ -1738,6 +1781,47 @@ uint32_t cts_inspect(void)
             CTS_THP_LOGE("Inspect Rawdata,  left:%d", retries);
 			
             ret = cts_tcs_get_debug_info();
+
+
+            #ifdef CAP_PINT_DEG
+            //uint8_t *thp_data = ((uint16_t *)ioctl_frame->frame);
+            uint8_t thp_data[128] = {0};
+            cts_drw_read_raw(0x00000, thp_data, 128);
+            //thp_data = frame + 60;
+        
+                        for(int i = 0; i < 8; i++){
+                                CTS_THP_LOGE("raw %04d ~ %04d:%02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x ",
+                                        i *16,i *16 + 15,
+                                        (uint8_t)thp_data[0 + i *16],(uint8_t)thp_data[1 + i *16], (uint8_t)thp_data[2 + i *16], (uint8_t)thp_data[3 + i *16],
+                                        (uint8_t)thp_data[4 + i *16], (uint8_t)thp_data[5 + i *16], (uint8_t)thp_data[6 + i *16], (uint8_t)thp_data[7 + i *16],
+                                        (uint8_t)thp_data[8 + i *16], (uint8_t)thp_data[9 + i *16], (uint8_t)thp_data[10 + i *16], (uint8_t)thp_data[11 + i *16],
+                                        (uint8_t)thp_data[12 + i *16],(uint8_t)thp_data[13 + i *16], (uint8_t)thp_data[14 + i *16], (uint8_t)thp_data[15 + i *16]);
+                        }
+
+
+                        CTS_THP_LOGE("*******************************************************");
+
+
+            
+            MEMSET(thp_data, 0, 128);
+
+            cts_drw_read_raw(0x7401C, thp_data, 4);
+            CTS_THP_LOGE("0x7401C = %02x  %02x  %02x  %02x", thp_data[0], thp_data[1], thp_data[2], thp_data[3]);
+            MEMSET(thp_data, 0, 128);
+            cts_drw_read_raw(0x7402C, thp_data, 4);
+            CTS_THP_LOGE("0x7402C = %02x  %02x  %02x  %02x", thp_data[0], thp_data[1], thp_data[2], thp_data[3]);
+            MEMSET(thp_data, 0, 128);
+            cts_drw_read_raw(0x7401A, thp_data, 4);
+            CTS_THP_LOGE("0x7401A = %02x", thp_data[0]);
+            cts_drw_read_raw(0x3B800, thp_data, 4);
+            CTS_THP_LOGE("0x3B800= %02x  %02x  %02x  %02x", thp_data[0], thp_data[1], thp_data[2], thp_data[3]);
+            MEMSET(thp_data, 0, 128);
+            cts_drw_read_raw(0x27FA0, thp_data, 1);
+            CTS_THP_LOGE("0x27FA0 = %02x", thp_data[0]);
+        #endif
+
+
+
             if (ret)
             {
                 CTS_THP_LOGE("fet debug_info failed");
@@ -1774,6 +1858,45 @@ uint32_t cts_inspect(void)
             CTS_THP_LOGE("Inspect Noise,  left:%d", retries);
 
             ret = cts_tcs_get_debug_info();
+
+            #ifdef CAP_PINT_DEG
+            //uint8_t *thp_data = ((uint16_t *)ioctl_frame->frame);
+            uint8_t thp_data[128] = {0};
+            cts_drw_read_raw(0x00000, thp_data, 128);
+            //thp_data = frame + 60;
+        
+                        for(int i = 0; i < 8; i++){
+                                CTS_THP_LOGE("raw %04d ~ %04d:%02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x ",
+                                        i *16,i *16 + 15,
+                                        (uint8_t)thp_data[0 + i *16],(uint8_t)thp_data[1 + i *16], (uint8_t)thp_data[2 + i *16], (uint8_t)thp_data[3 + i *16],
+                                        (uint8_t)thp_data[4 + i *16], (uint8_t)thp_data[5 + i *16], (uint8_t)thp_data[6 + i *16], (uint8_t)thp_data[7 + i *16],
+                                        (uint8_t)thp_data[8 + i *16], (uint8_t)thp_data[9 + i *16], (uint8_t)thp_data[10 + i *16], (uint8_t)thp_data[11 + i *16],
+                                        (uint8_t)thp_data[12 + i *16],(uint8_t)thp_data[13 + i *16], (uint8_t)thp_data[14 + i *16], (uint8_t)thp_data[15 + i *16]);
+                        }
+
+
+                        CTS_THP_LOGE("*******************************************************");
+
+
+            
+            MEMSET(thp_data, 0, 128);
+
+            cts_drw_read_raw(0x7401C, thp_data, 4);
+            CTS_THP_LOGE("0x7401C = %02x  %02x  %02x  %02x", thp_data[0], thp_data[1], thp_data[2], thp_data[3]);
+            MEMSET(thp_data, 0, 128);
+            cts_drw_read_raw(0x7402C, thp_data, 4);
+            CTS_THP_LOGE("0x7402C = %02x  %02x  %02x  %02x", thp_data[0], thp_data[1], thp_data[2], thp_data[3]);
+            MEMSET(thp_data, 0, 128);
+            cts_drw_read_raw(0x7401A, thp_data, 4);
+            CTS_THP_LOGE("0x7401A = %02x", thp_data[0]);
+            cts_drw_read_raw(0x3B800, thp_data, 4);
+            CTS_THP_LOGE("0x3B800= %02x  %02x  %02x  %02x", thp_data[0], thp_data[1], thp_data[2], thp_data[3]);
+            MEMSET(thp_data, 0, 128);
+            cts_drw_read_raw(0x27FA0, thp_data, 1);
+            CTS_THP_LOGE("0x27FA0 = %02x", thp_data[0]);
+        #endif
+
+
             if (ret)
             {
                 CTS_THP_LOGE("fet debug_info failed");

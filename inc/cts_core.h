@@ -17,6 +17,7 @@ extern "C" {
 // #define PROJECT_ID				"W427CF1300"
 
 //#define PINT_PINT_DEG
+#define CAP_PINT_DEG
 //#define NEED_COMPARE_DATA
 //#define CTS_DEBUG
 
@@ -174,9 +175,7 @@ typedef struct
     uint32_t                slave_scan_go_err0_sts;
     uint32_t                slave_scan_go_err1_sts;
     uint32_t                mstr_dmct_go_err0;
-    uint32_t                mstr_dmct_go_err1;
     uint32_t                slave_dmct_go_err0;
-    uint32_t                slave_dmct_go_err1;
     uint8_t                 ddi_r_0A;
     uint8_t                 ddi_fsm_state;
 } CTS_FW_DUMP_INFO_STRUCT;

@@ -54,7 +54,7 @@ int cts_app_log(int prio, const char *func, const char *fmt, ...);
 #undef LOG_DOMAIN 
 #define LOG_DOMAIN 0X3101
 //#define HILOGI(...) OH_LOG_Print(LOG_TAG, LOG_INFO, LOG_DOMAIN, LOG_TAG, __VA_ARGS__)
-#define HILOGI(...) OH_LOG_Print(LOG_APP, LOG_INFO, LOG_DOMAIN, LOG_TAG, __VA_ARGS__)
+#define HILOGI(...) OH_LOG_Print(LOG_APP, LOG_ERROR, LOG_DOMAIN, LOG_TAG, __VA_ARGS__)
 
 #define APP_LOGE(...) cts_app_log(LOG_ERROR, __func__, ## __VA_ARGS__)
 #define APP_LOGW(...) cts_app_log(LOG_WARN, __func__, ## __VA_ARGS__)

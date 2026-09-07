@@ -51,6 +51,8 @@ int cts_drw_write_u16(uint32_t addr, uint16_t wval);
 int cts_prog_write_u32(uint32_t addr, uint32_t wval);
 int cts_drw_write_u32(uint32_t addr, uint32_t wval);
 
+int cts_tcs_set_hpp(int num);
+
 int cts_prog_spi_switch(CTS_SPI_TARGET_ENUM tgt);
 int cts_drw_spi_switch(CTS_SPI_TARGET_ENUM tgt);
 

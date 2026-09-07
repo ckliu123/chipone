@@ -53,6 +53,10 @@ uint16_t  last_Frame_index=0;
 uint16_t  current_afe_data_type = FRAME_TYPE_FINGER_0;
 uint16_t baserawdata[ROWS*COLS] = {0};
 
+
+
+uint8_t thp_data[128] = {0};
+
 int nonblock = SCREEN_ON_FLAG;            //for screenon/screenoff
 uint8_t  g_tcs_cmd[MAX_TCS_CMD_NUM] = {0};
 static volatile bool g_esd_flag = false;
@@ -151,11 +155,9 @@ void cts_print_fw_status(CTS_FRAME_STRUCT *frame)
         CTS_THP_LOGI("slave_scan_go_err0_sts=0x%08x",dump_info->slave_scan_go_err0_sts);
         CTS_THP_LOGI("slave_scan_go_err1_sts=0x%08x",dump_info->slave_scan_go_err1_sts);
         CTS_THP_LOGI("mstr_dmct_go_err0=0x0x%08x",dump_info->mstr_dmct_go_err0);
-        CTS_THP_LOGI("mstr_dmct_go_err1=0x%08x",dump_info->mstr_dmct_go_err1);
         CTS_THP_LOGI("slave_dmct_go_err0=0x%08x",dump_info->slave_dmct_go_err0);
-        CTS_THP_LOGI("slave_dmct_go_err1=0x%08x",dump_info->slave_dmct_go_err1);
         CTS_THP_LOGI("ddi_r_0A=0x%02x",dump_info->ddi_r_0A);
-        CTS_THP_LOGI("ddi_fsm_state=0x%02x",dump_info->ddi_fsm_state);
+        CTS_THP_LOGI("ddi_AC=0x%02x",dump_info->ddi_fsm_state);
     }
 #endif
 
@@ -313,6 +315,8 @@ static int cts_prework(void)
     }
 
 #endif
+
+ 
 
     cts_reset_device();
 
@@ -1984,7 +1988,7 @@ THP_AFE_FRAME_DATA_STRUCT *cts_get_frame(void)
 
     //cts_print_rawdata(cts_frame->rawdata);
 
-    if(0)
+    if(1)
     cts_print_fw_status(cts_frame);
 
     ret = cts_convert_frame(&g_ioctl_frame.tv,cts_frame,(CTS_FRAME_FINGER_STYLUS_STRUCT *)g_ioctl_frame.frame,&g_thp_frame,&g_stylus_frame);

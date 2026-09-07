@@ -663,6 +663,11 @@ int cts_tcs_disable_cneg(void)
     return cts_tcs_write_u8attr(TP_STD_CMD_CNEG_EN_RW, 0);
 }
 
+int cts_tcs_set_hpp(int num)
+{
+    return cts_tcs_write_u8attr(TP_STD_CMD_SYS_STS_SET_HPP_RW, num);
+}
+
 int cts_tcs_set_openshort_mode(uint8_t openshort_mode)
 {
     if (CTS_TEST_OPEN == openshort_mode)
