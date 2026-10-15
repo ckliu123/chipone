@@ -1042,7 +1042,6 @@ static int cts_convert_grid_data(CTS_FRAME_STRUCT *thp_ctsframe)
 
             grid_data[index] = (int)(temp * FsCoffBuFreq[index]  / 100)*0.9 + 0x8000;
 
-
             //grid_data[index] = temp*3 + 0x8000;
 #ifdef NOISE_LOG
              //memcpy(temp_rawdata, grid_data, sizeof(temp_rawdata));
@@ -1988,7 +1987,7 @@ THP_AFE_FRAME_DATA_STRUCT *cts_get_frame(void)
 
     //cts_print_rawdata(cts_frame->rawdata);
 
-    if(1)
+    if(0)
     cts_print_fw_status(cts_frame);
 
     ret = cts_convert_frame(&g_ioctl_frame.tv,cts_frame,(CTS_FRAME_FINGER_STYLUS_STRUCT *)g_ioctl_frame.frame,&g_thp_frame,&g_stylus_frame);
@@ -2001,6 +2000,8 @@ THP_AFE_FRAME_DATA_STRUCT *cts_get_frame(void)
 
 	if (cts_frame->points[11] == 88) {
 		CTS_THP_LOGE("Trigger Display ESD Flow, Get ESD info");
+
+        //cts_print_fw_status(cts_frame);
 		
 		CTS_THP_LOGD("%+18s = 0x%02x, %+18s = 0x%02x",
 			"u8MstrDdiRAC", cts_frame->points[12], "u8SlvDdiRAC", cts_frame->points[19]);

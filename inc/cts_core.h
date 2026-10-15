@@ -17,14 +17,14 @@ extern "C" {
 // #define PROJECT_ID				"W427CF1300"
 
 //#define PINT_PINT_DEG
-#define CAP_PINT_DEG
+//#define CAP_PINT_DEG
 //#define NEED_COMPARE_DATA
-//#define CTS_DEBUG
+#define CTS_DEBUG
 
 
 
 #ifdef CTS_DEBUG
-/*** DEBUG PART ***/
+/*** DEBUG PART ***/        
 #define DEBUG_SOCKET_TOOL   
 // #define DEBUG_DUMP_IOCTL_SPI_FULL_DATA
 // #define DISABLE_IDLE
@@ -38,7 +38,7 @@ extern "C" {
 #define PRODUCT_NAME               "icnl9953"
 
 //yjl  version
-#define AFE_VERSION                "1.0.2"
+#define AFE_VERSION                "1.0.2" 
 
 #define ROWS                       40
 #define COLS                       60
