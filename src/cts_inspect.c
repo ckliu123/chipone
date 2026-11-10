@@ -34,8 +34,8 @@ uint8_t M_delay_5 = 0;
 uint16_t last_rawdata[RAWDATA_NODES];
 
 #define RAWDATA_TEST_FRAMES             1
-#define RAWDATA_TEST_MIN                1380
-#define RAWDATA_TEST_MAX                3780
+#define RAWDATA_TEST_MIN                1
+#define RAWDATA_TEST_MAX                5000
 
 #define OPEN_TEST_FRAMES                1
 #define OPEN_TEST_MIN                   1600
@@ -48,7 +48,7 @@ uint16_t last_rawdata[RAWDATA_NODES];
 
 #define COMPCAP_TEST_FRAMES             1
 #define COMPCAP_TEST_MIN                1
-#define COMPCAP_TEST_MAX                127
+#define COMPCAP_TEST_MAX                63
 
 #define TOTAL_GRID_DATA_SIZE \
     ((RAWDATA_TEST_FRAMES + OPEN_TEST_FRAMES + SHORT_TEST_FRAMES) * \

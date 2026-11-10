@@ -135,10 +135,11 @@ int wait_to_norm(uint16_t retryMax, uint16_t  time1msDelay)
 
 void cts_print_fw_status(CTS_FRAME_STRUCT *frame)
 {
-    CTS_THP_LOGI("cur short mode=%d",frame->points[100]);
-    CTS_THP_LOGI("index=%d,type=%x,size=%d,afe_status=%x",frame->index,frame->frame_type,frame->curr_frame_size,frame->afe_status);
-    CTS_THP_LOGI("gesture_status=%x,stylus_status=%x,data_type=%x,data_len=%d",frame->gesture_status,frame->stylus_status,frame->data_type,frame->data_len);
+    // CTS_THP_LOGI("cur short mode=%d",frame->points[100]);
+    // CTS_THP_LOGI("index=%d,type=%x,size=%d,afe_status=%x",frame->index,frame->frame_type,frame->curr_frame_size,frame->afe_status);
+    // CTS_THP_LOGI("gesture_status=%x,stylus_status=%x,data_type=%x,data_len=%d",frame->gesture_status,frame->stylus_status,frame->data_type,frame->data_len);
 
+    CTS_THP_LOGI("yyyy = %d s16SwSt  =%d   s16SwStyT = %d   s16PsDiffV = %d   ",frame->finger_noise[0], frame->finger_noise[1],frame->finger_noise[2], frame->finger_noise[3]);
 #ifdef CTS_FW_DUMP_INFO
     if ((frame->frame_index % FRAME_NUM_TO_PRINT == (FRAME_NUM_TO_PRINT - 1)))
     {
@@ -149,15 +150,15 @@ void cts_print_fw_status(CTS_FRAME_STRUCT *frame)
             CTS_THP_LOGI("ID=%d,rld_dbg_cnt=%d,ddi_fr_len=%d,ddi_fr_cnt=%d,ddi_rst_cnt=%d,bit12ddilinenuber=%d,tpsprdnum=%d,bit4headcfgtag=%d, ",\
                      i,(id+i)->rld_dbg_cnt,(id+i)->ddi_fr_len,(id+i)->ddi_fr_cnt,(id+i)->ddi_rst_cnt,(id+i)->info_data3.bits.bit12ddilinenuber, (id+i)->info_data4.bits.tpsprdnum, (id+i)->info_data4.bits.bit4headcfgtag);
         }
-        CTS_FW_DUMP_INFO_STRUCT *dump_info = (CTS_FW_DUMP_INFO_STRUCT *)frame;
-        CTS_THP_LOGI("mstr_scan_go_err0_sts=0x%08x",dump_info->mstr_scan_go_err0_sts);
-        CTS_THP_LOGI("mstr_scan_go_err1_sts=0x%08x",dump_info->mstr_scan_go_err1_sts);
-        CTS_THP_LOGI("slave_scan_go_err0_sts=0x%08x",dump_info->slave_scan_go_err0_sts);
-        CTS_THP_LOGI("slave_scan_go_err1_sts=0x%08x",dump_info->slave_scan_go_err1_sts);
-        CTS_THP_LOGI("mstr_dmct_go_err0=0x0x%08x",dump_info->mstr_dmct_go_err0);
-        CTS_THP_LOGI("slave_dmct_go_err0=0x%08x",dump_info->slave_dmct_go_err0);
-        CTS_THP_LOGI("ddi_r_0A=0x%02x",dump_info->ddi_r_0A);
-        CTS_THP_LOGI("ddi_AC=0x%02x",dump_info->ddi_fsm_state);
+        //CTS_FW_DUMP_INFO_STRUCT *dump_info = (CTS_FW_DUMP_INFO_STRUCT *)frame;
+        // CTS_THP_LOGI("mstr_scan_go_err0_sts=0x%08x",dump_info->mstr_scan_go_err0_sts);
+        // CTS_THP_LOGI("mstr_scan_go_err1_sts=0x%08x",dump_info->mstr_scan_go_err1_sts);
+        // CTS_THP_LOGI("slave_scan_go_err0_sts=0x%08x",dump_info->slave_scan_go_err0_sts);
+        // CTS_THP_LOGI("slave_scan_go_err1_sts=0x%08x",dump_info->slave_scan_go_err1_sts);
+        // CTS_THP_LOGI("mstr_dmct_go_err0=0x0x%08x",dump_info->mstr_dmct_go_err0);
+        // CTS_THP_LOGI("slave_dmct_go_err0=0x%08x",dump_info->slave_dmct_go_err0);
+        // CTS_THP_LOGI("ddi_r_0A=0x%02x",dump_info->ddi_r_0A);
+        // CTS_THP_LOGI("ddi_AC=0x%02x",dump_info->ddi_fsm_state);
     }
 #endif
 
@@ -1040,7 +1041,7 @@ static int cts_convert_grid_data(CTS_FRAME_STRUCT *thp_ctsframe)
             index = i*COLS + j;
             temp = (int)(grid_data[index] - baserawdata[index]);
 
-            grid_data[index] = (int)(temp * FsCoffBuFreq[index]  / 100)*0.9 + 0x8000;
+            grid_data[index] = (int)(temp * FsCoffBuFreq[index]  / 100)* 1.2 + 0x8000;
 
             //grid_data[index] = temp*3 + 0x8000;
 #ifdef NOISE_LOG
